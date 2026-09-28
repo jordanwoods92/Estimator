@@ -1,0 +1,807 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Estimator">
+<meta name="theme-color" content="#23272B">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAD9UlEQVR42u3dPU4cURBFYRj1Thw48BosRxZeABIx+yD0Phxb8gKMiBB7sexdOBiJfwZ43f26qt53IyQCxHCqzu1Hz/Txh4+fjkSey85LIOAQcAg4BBwCDgGHgEPAIeAQcIiAQ8Ah4BBwCDgEHAIOAUeo3Fxf+qMulaner3TLx+nZeecf/e/vn5vry89fTsBhbdzl188ftJIm/ddGPbUppOlZBMf75rXknwocRZZHDbMUgcMVLDgy6b8Ar5P52Of396vbr79dfG3mstI1bYXNwSngyHdJmZ1aVyuV6RwdDscb4Mi6PFKbJTccqig4css+L8G0opZWhINTwFFhUpNyTCvMUg4OxxvgqLM8MpolJRyqKDiqqT0d07SC3UJwcAo4as5lLrJpBcFV4HC80TPHuR7GkxeO+zceZ3mn9S4pGQKOmpeIWShXSNGcHw5OAUd9pyRinVYwnRwOxxvgGGt5xDdLAjhUUXCMUkUTcU8r+E4LB6dsmMnMHT38WJ99mj/cp4H+sP+HoxVmyQmH4w1wjL48wvaquHCoouCodvlXaRJoBfHZ4OAUcHBK6HmgFdyngsPxBjjkMf3RzBIODlUUHKpogtmgFTOQBA5OAQen5JgQWjEJGeBwvAEOeX15BDFLFDhUUZtDFc00LbRiKmLDwSm0winJZoZWzEZgOBxv0Iq0LI9tzbIxHKpo5EwxJ6Zzur1tum1+tnqnNa2opSHh4BSFNN8lXECz0IrEmpZdhGmwNmhF2pfHJmbZBg5V1OZQRXNPFK2opZHg4BRa4ZT0c0UrzBIGDscbtCJrLY+eZukKhypqc6iiRWZs8lo/fWTCPqHuADo9O7//wPNqm4NTaIVT6kyaq5WU1yylNofjDVqRfsujg1l6wKGK2hyqaLVaSitq6XZwcAqtcEpBs9AKs2wEh+MNWpEtl8d6ZlkRDlXU5lBFy9ZSWlFLu8PBKbTCKZXNQivM0heORMcbL91AevhbtCLJlsfiZlkeDlXU5lBF69dSWlFLe8HBKbTCKUOYhVaYpQsc7t6gFYm+PJYyy2JwqKI2hyo6UC2lFbV0ZTg4hVY4ZSyz0AqzrAmH4w1akXzLY6ZZ5sKhihbOtBKzWRL5ibJL1dLmx9LSilq6DhycopCWdcogaZ5hWmGWFeBwvEErUmF5tJmlEQ5V1OZQRYeupbSili4KB6fQCqeMbhZaYZYXM82hr8DaOPwhHOX/LWdzWB6NBx7vg0MVtTlUUbWUVtTSpeDgFFrhFGahFWZZCg53b9CKjLI83mKWN8Ghitocqujj1P6E61dnnlbU0hlwcAqtcMqIOTz5tMIsrXA43qAVGXd5HDDLThWVuZuDUwaspf8BP4y1rAeLAeIAAAAASUVORK5CYII=">
+<title>Asphalt estimator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EDEFEB; --sheet:#F7F8F5; --ink:#1D2125; --muted:#596168; --rule:#CBD0CA;
+  --field:#FFFBE8; --field-rule:#C4BD9C; --focus:#1D5FD0;
+  --asphalt:#26292D; --asphalt-2:#3A3F45; --on-asphalt:#F1F2EE; --on-asphalt-2:#B7BDC2;
+  --yellow:#F2C300; --good:#1F7A46; --bad:#B42318; --warn-bg:#FBE9E7; --banner:#FFF6CC;
+  --sans:"Barlow","Helvetica Neue",Arial,sans-serif;
+  --cond:"Barlow Condensed","Arial Narrow","Helvetica Neue",Arial,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#1B1E21; --sheet:#23272B; --ink:#E9EBE7; --muted:#9CA3A9; --rule:#3A3F45;
+    --field:#2C2F2A; --field-rule:#5B5846; --focus:#7FA8F0;
+    --asphalt:#2E3237; --asphalt-2:#474C53; --good:#5CC08A; --bad:#F2877B; --warn-bg:#3A2522; --banner:#3A3520;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#1B1E21; --sheet:#23272B; --ink:#E9EBE7; --muted:#9CA3A9; --rule:#3A3F45;
+  --field:#2C2F2A; --field-rule:#5B5846; --focus:#7FA8F0;
+  --asphalt:#2E3237; --asphalt-2:#474C53; --good:#5CC08A; --bad:#F2877B; --warn-bg:#3A2522; --banner:#3A3520;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%;background:var(--paper)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.45 var(--sans);font-variant-numeric:tabular-nums}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+h1{font:700 34px/1.1 var(--cond);margin:0;letter-spacing:.2px}
+h2{font:600 25px/1.15 var(--cond);margin:28px 0 10px}
+h3{font:600 17px/1.3 var(--sans);margin:22px 0 8px}
+p{margin:0 0 10px}
+.note{color:var(--muted);font-size:15px;max-width:68ch}
+.muted{color:var(--muted)}
+[hidden]{display:none!important}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+  padding:10px max(20px,env(safe-area-inset-left,0px)) 10px max(20px,env(safe-area-inset-right,0px));background:var(--paper);border-bottom:1px solid var(--rule)}
+.brand{display:flex;align-items:center;gap:10px;font:700 23px/1 var(--cond)}
+.mark{display:inline-block;width:30px;height:5px;background:repeating-linear-gradient(90deg,var(--yellow) 0 9px,transparent 9px 14px);border-radius:1px}
+.seg{display:flex;gap:2px;margin-left:auto;background:var(--sheet);border:1px solid var(--rule);border-radius:8px;padding:3px}
+.seg button{appearance:none;border:0;background:none;padding:8px 14px;border-radius:6px;font-weight:500;min-height:40px;cursor:pointer;color:var(--muted)}
+.seg button[aria-current="page"]{background:var(--ink);color:var(--paper)}
+
+.wrap{max-width:1280px;margin:0 auto;padding:22px max(20px,env(safe-area-inset-left,0px)) 40px max(20px,env(safe-area-inset-right,0px))}
+.narrow{max-width:900px}
+.head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 16px;flex-wrap:wrap}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+/* buttons */
+.btn{appearance:none;min-height:44px;padding:0 16px;border-radius:7px;border:1.5px solid var(--ink);background:transparent;font-weight:600;font-size:15px;cursor:pointer;color:var(--ink)}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.add{border-style:dashed;border-color:var(--muted);color:var(--ink);font-weight:500}
+.btn.danger{border-color:var(--bad);color:var(--bad)}
+.btn.sm{min-height:38px;font-size:14px}
+.link{appearance:none;border:0;background:none;padding:0;text-decoration:underline;cursor:pointer;color:var(--ink);font-weight:500}
+.back{appearance:none;border:0;background:none;padding:8px 0;font-weight:600;color:var(--muted);cursor:pointer;min-height:44px}
+
+/* jobs list */
+.banner{background:var(--banner);border-left:5px solid var(--yellow);padding:14px 16px;border-radius:4px;margin-bottom:22px}
+.jobs{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.jobrow{appearance:none;width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto 110px 140px;gap:16px;align-items:center;text-align:left;
+  background:none;border:0;border-bottom:1px solid var(--rule);padding:14px 4px;cursor:pointer;color:var(--ink);min-height:64px}
+.jobrow:hover{background:var(--sheet)}
+.jn,.jp{display:flex;flex-direction:column;min-width:0}
+.jn strong{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jn span,.jp span,.jd{color:var(--muted);font-size:14px}
+.jp{text-align:right}.jp strong{font:600 20px/1.1 var(--cond)}
+.st{font-size:13px;font-weight:600;padding:3px 10px;border-radius:20px;border:1.5px solid var(--muted);color:var(--muted);white-space:nowrap}
+.st-won{border-color:var(--good);color:var(--good)} .st-lost{border-color:var(--bad);color:var(--bad)} .st-sent{border-color:var(--ink);color:var(--ink)}
+.empty{padding:40px 0}
+.foot{margin-top:22px;color:var(--muted);font-size:14px}
+@media (max-width:640px){.jobrow{grid-template-columns:minmax(0,1fr) auto}.jd{display:none}.jobrow .st{grid-row:2;justify-self:start}}
+
+/* job editor */
+.jobhead{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.jt{flex:1;display:flex;gap:14px;align-items:center;min-width:260px;flex-wrap:wrap}
+input.title-in[type=text]{flex:1;min-width:220px;font:700 30px/1.1 var(--cond);border:0;border-bottom:2px solid var(--rule);background:transparent;padding:6px 2px;border-radius:0}
+input.title-in[type=text]:focus{border-bottom-color:var(--ink);outline:none}
+.stsel{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:14px}
+.stsel select{min-height:40px}
+.tabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--rule);margin:14px 0 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{appearance:none;border:0;background:none;padding:12px 13px 10px;font-weight:500;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap;cursor:pointer;min-height:46px}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink);font-weight:600}
+.job{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:28px;align-items:start}
+.pane{min-width:0;padding-bottom:10px}
+.next{margin-top:28px;padding-top:16px;border-top:1px solid var(--rule)}
+
+/* fields */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px 18px;align-items:end}
+.f{display:flex;flex-direction:column;gap:5px;min-width:0}
+.f.wide{margin-top:14px}
+.fl{font-size:14px;color:var(--muted);font-weight:500;line-height:1.25}
+.fc{display:flex;align-items:center;gap:8px}
+.fc em{font-style:normal;color:var(--muted);font-size:14px;white-space:nowrap}
+input[type=text],input[type=date],select,textarea{width:100%;min-height:44px;border:1px solid var(--field-rule);background:var(--field);border-radius:6px;padding:8px 10px;font-size:17px;min-width:0}
+select{padding-right:6px}
+textarea{line-height:1.45;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--focus)}
+input[type=checkbox]{width:26px;height:26px;accent-color:var(--ink);margin:0}
+.ro{display:flex;flex-direction:column;gap:3px;padding:6px 0;border-bottom:1px solid var(--rule)}
+.ro strong{font:600 22px/1.15 var(--cond)}
+.ro.key strong{font-size:27px}
+.warn{background:var(--warn-bg);border-left:4px solid var(--bad);padding:10px 14px;border-radius:3px;margin:14px 0;max-width:70ch}
+.keyin input{font-weight:600;border-width:2px;border-color:var(--ink)}
+
+/* tables */
+.tbl{display:grid;grid-template-columns:var(--cols);gap:8px 10px;align-items:center;margin:10px 0 12px}
+.tr{display:contents}
+.th{font-size:13px;color:var(--muted);font-weight:500;line-height:1.2;align-self:end}
+.num{text-align:right}
+.cell-out strong{display:block;font:600 19px/1.1 var(--cond)}
+.cell-out small{display:block;color:var(--muted);font-size:13px}
+.sub-note{display:block;color:var(--muted);font-size:12.5px;margin-top:3px;line-height:1.2}
+.x{appearance:none;width:44px;height:44px;border:0;background:none;border-radius:6px;cursor:pointer;color:var(--muted);font-size:24px;line-height:1}
+.x:hover{background:var(--sheet);color:var(--bad)}
+@media (max-width:700px){
+  .tbl{grid-template-columns:1fr 1fr!important}
+  .th{display:none}
+  .tr>*{min-width:0}
+  .tr>:first-child{grid-column:1/-1;border-top:1px solid var(--rule);padding-top:12px}
+  .tr>[data-label]::before{content:attr(data-label);display:block;font-size:12.5px;color:var(--muted);margin-bottom:3px}
+  .num{text-align:left}
+}
+
+/* summary list */
+.sumlist{margin:6px 0 0;max-width:620px}
+.sumlist>div{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:9px 0;border-bottom:1px solid var(--rule)}
+.sumlist dt{color:var(--ink)}
+.sumlist dd{margin:0;text-align:right;font:600 19px/1.1 var(--cond)}
+.sumlist .tot dt{font-weight:600}.sumlist .tot dd{font-size:23px}
+.sumlist .final{border-bottom:3px solid var(--ink)}
+.sumlist .final dd{font-size:30px}
+.sumlist .in dd{width:150px}
+.sumlist .in input{text-align:right}
+.neg{color:var(--bad)!important}
+.pos{color:var(--good)}
+
+/* price panel: the one loud thing, an asphalt slab with a lane line */
+.panel{position:sticky;top:calc(env(safe-area-inset-top,0px) + 80px);background:var(--asphalt);color:var(--on-asphalt);border-radius:10px;padding:20px 20px 18px}
+.panel .pl{margin:0;color:var(--on-asphalt-2);font-size:14px}
+.panel .big{margin:2px 0 0;font:700 50px/1 var(--cond);letter-spacing:.3px}
+.panel .sub{margin:4px 0 0;color:var(--on-asphalt-2);font-size:14px}
+.lane{height:0;border-top:4px dashed var(--yellow);margin:16px 0 14px}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;margin:0 0 16px}
+.kv dt{color:var(--on-asphalt-2);font-size:13px}
+.kv dd{margin:1px 0 0;font:600 20px/1.15 var(--cond)}
+.kv dd.neg{color:#FF9A8B!important}
+.stack{display:flex;height:14px;border-radius:3px;overflow:hidden;background:var(--asphalt-2)}
+.stack span{display:block;height:100%}
+.legend{list-style:none;padding:0;margin:10px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:5px 12px;font-size:13px;color:var(--on-asphalt-2)}
+.legend li{display:flex;align-items:center;gap:6px;min-width:0}
+.legend i{width:10px;height:10px;border-radius:2px;flex:none}
+.legend b{margin-left:auto;font-weight:500;color:var(--on-asphalt)}
+.c1{background:#C9CFD4}.c2{background:#8E9AA5}.c3{background:#6FA3C7}.c4{background:#7FB38B}.c5{background:#B8A3D9}.c6{background:#5F676F}.c7{background:#D98E73}.c8{background:var(--yellow)}
+.alert{margin:16px 0 0;padding:10px 12px;border-radius:5px;background:#5A2A25;color:#FFE1DC;font-size:14px}
+.calm{margin:16px 0 0;font-size:14px;color:var(--on-asphalt-2)}
+.bar{display:none}
+@media (max-width:999px){
+  .job{grid-template-columns:1fr}
+  .panel{display:none}
+  .jobwrap{padding-bottom:calc(100px + env(safe-area-inset-bottom,0px))}
+  .bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--asphalt);color:var(--on-asphalt);
+    border-top:4px dashed var(--yellow);padding:10px max(16px,env(safe-area-inset-left,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-right,0px));
+    gap:10px;align-items:center;justify-content:space-between;appearance:none;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left;cursor:pointer;font:inherit}
+  .bar>span{display:flex;flex-direction:column}
+  .bar small{color:var(--on-asphalt-2);font-size:12.5px}
+  .bar strong{font:700 24px/1.1 var(--cond)}
+  .bar strong.neg{color:#FF9A8B!important}
+}
+
+/* rate library */
+.blk{border-top:1px solid var(--rule);margin-top:26px}
+.pl-item{border-bottom:1px solid var(--rule)}
+.pl-item summary{display:grid;grid-template-columns:minmax(0,1fr) 80px 110px;gap:12px;align-items:center;padding:12px 2px;cursor:pointer;min-height:52px;list-style:none}
+.pl-item summary::-webkit-details-marker{display:none}
+.pl-item summary::after{content:"";}
+.pl-item summary span:first-child{font-weight:600}
+.pl-item summary span:first-child::before{content:"+";display:inline-block;width:20px;color:var(--muted);font-weight:500}
+.pl-item[open] summary span:first-child::before{content:"–"}
+.pl-item summary strong{text-align:right;font:600 19px/1 var(--cond)}
+.pl-item .grid{padding:4px 0 14px 20px}
+.pl-item .btn{margin:0 0 16px 20px}
+
+/* quote document */
+.doc{background:var(--sheet);border:1px solid var(--rule);padding:30px 32px;max-width:760px;border-radius:4px}
+.doc h2{margin-top:0;font-size:30px}
+.doc .co{font:700 22px/1.1 var(--cond);margin-bottom:2px}
+.doc table{border-collapse:collapse;width:100%;margin:8px 0 16px}
+.doc th{text-align:left;font-weight:500;color:var(--muted);padding:6px 12px 6px 0;width:42%;vertical-align:top;font-size:15px}
+.doc td{padding:6px 0;vertical-align:top}
+.doc h3{border-top:1px solid var(--rule);padding-top:14px}
+.doc ul{margin:0;padding-left:20px}
+.doc li{margin:3px 0}
+.doc .price{font:700 34px/1 var(--cond)}
+.status{margin-left:10px;color:var(--muted);font-size:14px}
+@media print{.top,.tabs,.jobhead,.panel,.bar,.qedit,.next{display:none!important}.doc{border:0}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+"use strict";
+const LS_KEY='asphalt-estimator.v1';
+const app=document.getElementById('app');
+const $=s=>document.querySelector(s);
+const uid=()=>Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-5);
+const n=v=>{const x=typeof v==='number'?v:parseFloat(v);return isFinite(x)?x:0};
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=(v,d=0)=>n(v).toLocaleString('en-AU',{minimumFractionDigits:d,maximumFractionDigits:d});
+const money=(v,d=0)=>{v=n(v);const r=Number(v.toFixed(d));return (r<0?'−$':'$')+Math.abs(r).toLocaleString('en-AU',{minimumFractionDigits:d,maximumFractionDigits:d})};
+const pct=(v,d=1)=>(n(v)*100).toFixed(d)+'%';
+const byId=(arr,id)=>(arr||[]).find(x=>x.id===id);
+const FMT={m:v=>money(v),m2:v=>money(v,2),n0:v=>num(v,0),n1:v=>num(v,1),n2:v=>num(v,2),p:v=>pct(v),t:v=>num(v,1)+' t',a:v=>num(v,0)+' m²',
+  h:v=>num(v,2)+' h',th:v=>num(v,1)+' t/h',ts:v=>num(v,0)+' t',L:v=>num(v,0)+' L',ph:v=>money(v,2)+'/h',pt:v=>money(v,2)+'/t',pm:v=>money(v,2)+'/m²'};
+function fmtDate(d){if(!d)return '';const x=new Date(d+'T00:00:00');return isNaN(x)?'':x.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})}
+function addDays(d,k){const x=new Date((d||new Date().toISOString().slice(0,10))+'T00:00:00');if(isNaN(x))return '';x.setDate(x.getDate()+n(k));return x.toISOString().slice(0,10)}
+
+/* ---------- defaults (placeholders) ---------- */
+function defaultRates(){
+  const P=(id,name,capital,residual,life,annual,fuelLph,maint)=>({id,name,type:'Owned',capital,residual,life,annual,fin:0.09,fuelLph,maint,hire:0});
+  return {updatedAt:Date.now(),setupDone:false,company:'',margin:0.10,roundTo:100,validity:30,fuel:2.00,floatRate:500,
+    tack:{price:1.60,rate:0.30},
+    oncost:[{id:'oc1',name:'Superannuation guarantee',pct:0.12},{id:'oc2',name:'Workers compensation premium',pct:0.05},
+      {id:'oc3',name:'Payroll tax (NSW)',pct:0.0545},{id:'oc4',name:'Leave, public holiday and personal leave provisions',pct:0.15},
+      {id:'oc5',name:'PPE, training, allowances and other',pct:0.07}],
+    roles:[{id:'r1',name:'Supervisor / foreman',base:68},{id:'r2',name:'Leading hand',base:64},{id:'r3',name:'Paver operator',base:62},
+      {id:'r4',name:'Screed operator',base:60},{id:'r5',name:'Roller operator',base:60},{id:'r6',name:'Raker / labourer',base:58},
+      {id:'r7',name:'Profiler operator',base:62},{id:'r8',name:'Skid steer operator',base:58}],
+    plant:[P('p1','Paver, large',900000,0.25,10000,1000,25,60),P('p2','Paver, small',450000,0.25,10000,1000,18,35),
+      P('p3','Steel drum roller',180000,0.25,10000,1000,8,15),P('p4','Multi-tyred roller',160000,0.25,10000,1000,7,15),
+      P('p5','Mini roller / plate compactor',40000,0.20,6000,800,3,5),P('p6','Skid steer with broom',110000,0.25,8000,1000,6,12),
+      P('p7','Tack sprayer truck',150000,0.25,12000,1000,10,10),P('p8','Water cart',120000,0.25,12000,800,10,10),
+      P('p9','Crew ute',70000,0.25,10000,1500,4,4),
+      {id:'p10',name:'Profiler (hired, wet)',type:'Hired',capital:0,residual:0,life:0,annual:0,fin:0,fuelLph:0,maint:0,hire:450},
+      {id:'p11',name:'Road sweeper (hired)',type:'Hired',capital:0,residual:0,life:0,annual:0,fin:0,fuelLph:0,maint:0,hire:140}],
+    mixes:[{id:'m1',name:'AC7',price:190,density:2.35},{id:'m2',name:'AC10',price:180,density:2.40},{id:'m3',name:'AC14',price:172,density:2.42},
+      {id:'m4',name:'AC20',price:165,density:2.45},{id:'m5',name:'SMA10',price:215,density:2.40},{id:'m6',name:'OGA10',price:210,density:2.00}],
+    trucks:[{id:'t1',name:'Semi tipper',payload:28,rate:160},{id:'t2',name:'Truck and dog',payload:32,rate:175},
+      {id:'t3',name:'8-wheeler rigid',payload:14,rate:130},{id:'t4',name:'6-wheeler rigid',payload:10,rate:115}],
+    subs:[{id:'s1',name:'Traffic controller',unit:'hour',rate:75},{id:'s2',name:'TC vehicle with signage',unit:'day',rate:350},
+      {id:'s3',name:'Truck-mounted attenuator',unit:'day',rate:1100},{id:'s4',name:'Line marking',unit:'allowance $',rate:1},
+      {id:'s5',name:'NATA compaction testing',unit:'lot',rate:650},{id:'s6',name:'Survey set-out',unit:'day',rate:1600},
+      {id:'s7',name:'Tipping, spoil or waste asphalt',unit:'tonne',rate:60},{id:'s8',name:'Millings to own plant (RAP credit)',unit:'tonne',rate:-15},
+      {id:'s9',name:'Profiling subcontract',unit:'m²',rate:6},{id:'s10',name:'Pit or lid adjustment',unit:'each',rate:450}],
+    overhead:{budget:1500000,forecast:15000000,crews:2,weeks:48,perWeek:5,weather:0.15},
+    rateCard:{mixId:'m2',thick:40,cart:20,maxT:150,hours:10,floats:4,margin:0.15,bands:'10, 20, 30, 50, 75, 100, 150, 200, 300',
+      crew:[{id:'c1',roleId:'r2',qty:1},{id:'c2',roleId:'r3',qty:1},{id:'c3',roleId:'r5',qty:1},{id:'c4',roleId:'r6',qty:2}],
+      plant:[{id:'c5',plantId:'p2',qty:1},{id:'c6',plantId:'p3',qty:1},{id:'c7',plantId:'p6',qty:1},{id:'c8',plantId:'p7',qty:1},{id:'c9',plantId:'p9',qty:1}]}
+  };
+}
+const QUOTE_DEFAULTS={
+  incl:['Supply, cartage, placement and compaction of asphalt as described','Tack coat to the surface area','Mobilisation and demobilisation of plant (one visit)','Compaction testing where listed'].join('\n'),
+  excl:['Base preparation, trimming and compaction (by others)','Traffic control unless listed','Line marking unless listed','Pit and lid adjustments unless listed','Authority fees, permits and road occupancy licences unless listed'].join('\n'),
+  assm:['Base is ready, compacted and within level tolerance on arrival; extra tonnes are charged at the rate above','Works completed in one continuous visit during the stated work window','Clear access for the paver and trucks, with truck turnaround on site','Programme subject to weather; remobilisation is charged at the rate above'].join('\n'),
+  terms:['Asphalt pricing is linked to bitumen costs. This quote is valid for the period shown; longer contracts are subject to bitumen rise and fall','Payment terms: [enter]','Defects liability: [enter]'].join('\n')
+};
+function newJob(example){
+  const today=new Date().toISOString().slice(0,10);
+  return {id:uid(),createdAt:Date.now(),updatedAt:Date.now(),
+    name:example?'Example: car park resurfacing':'New estimate',client:example?'Example Pty Ltd':'',clientType:'Private',
+    location:example?'Penrith NSW':'',date:today,estimator:'',basis:'Lump sum',window:'Day',loading:0,siteVisit:example?'Yes':'No',status:'Draft',notes:'',
+    layers:[{id:uid(),desc:example?'Car park wearing course':'',mixId:'m2',area:example?2000:0,thick:40,allow:0.04,surface:true}],
+    prod:{hours:8,width:3.5,speed:4,eff:0.35,plantRate:60,tps:200,extra:0},
+    crew:[['r2',1],['r3',1],['r4',1],['r5',1],['r6',2]].map(([roleId,qty])=>({id:uid(),roleId,qty,hrs:10})),travel:0,
+    plant:['p2','p3','p4','p6','p7','p9'].map(plantId=>({id:uid(),plantId,qty:1,hrs:10})),floatItems:2,floatTrips:2,
+    cart:{truckId:'t1',dist:25,speed:40,wait:30,spare:1,hrs:9},
+    prep:[{id:uid(),desc:'Sundries (heaters, hand tools, consumables)',qty:1,unit:'lot',rate:500}],
+    subs:example?[{id:uid(),subId:'s5',qty:1},{id:uid(),subId:'s4',qty:1200}]:[],
+    risks:[{desc:'Base not ready on the day, crew on standby',mit:'Base inspected before mobilising',prob:example?0.15:0,impact:2500},
+      {desc:'Extra tonnes on an uneven base',mit:'Quote a $/t rate for extra tonnes',prob:example?0.25:0,impact:1800},
+      {desc:'Weather cancellation and remobilisation',mit:'Weather clause and remobilisation rate in quote',prob:example?0.10:0,impact:3000}].map(r=>Object.assign({id:uid()},r)),
+    margin:null,roundTo:null,actual:{tonnes:null,shifts:null,cost:null},
+    quote:Object.assign({},QUOTE_DEFAULTS)};
+}
+
+/* ---------- calculations ---------- */
+const oncostTotal=R=>R.oncost.reduce((a,o)=>a+n(o.pct),0);
+const roleRate=(R,id)=>{const r=byId(R.roles,id);return r?n(r.base)*(1+oncostTotal(R)):0};
+function plantRate(p,R){if(!p)return 0;if(p.type==='Hired')return n(p.hire);
+  const own=(n(p.life)>0?n(p.capital)*(1-n(p.residual))/n(p.life):0)+(n(p.annual)>0?n(p.capital)*n(p.fin)/n(p.annual):0);
+  return own+n(p.fuelLph)*n(R.fuel)+n(p.maint)}
+const ohPct=R=>n(R.overhead.forecast)>0?n(R.overhead.budget)/n(R.overhead.forecast):0;
+const ceil=x=>Math.ceil(x-1e-9);
+
+function compute(j,R){
+  const o={};let netT=0,allowT=0,asphalt=0,surf=0;
+  j.layers.forEach((L,i)=>{const m=byId(R.mixes,L.mixId);const d=m?n(m.density):0;const nt=n(L.area)*n(L.thick)/1000*d;const at=nt*(1+n(L.allow));
+    const c=at*(m?n(m.price):0);netT+=nt;allowT+=at;asphalt+=c;if(L.surface)surf+=n(L.area);
+    o['L'+i+'t']=num(at,1)+' t';o['L'+i+'c']=money(c);o['L'+i+'d']=m?num(d,2)+' t/m³, '+money(m.price,0)+'/t':'Pick a mix'});
+  const avgPrice=allowT>0?asphalt/allowT:0;
+  const P=j.prod,L0=j.layers[0],m0=L0?byId(R.mixes,L0.mixId):null;
+  const paverT=n(P.width)*n(P.speed)*60*(L0?n(L0.thick):0)/1000*(m0?n(m0.density):0)*n(P.eff)*n(P.hours);
+  const plantT=n(P.plantRate)*n(P.hours);
+  const achievable=Math.min(paverT,plantT);
+  const tps=n(P.tps);
+  const paveShifts=tps>0&&allowT>0?ceil(allowT/tps):0;
+  const shifts=paveShifts+n(P.extra);
+  const load=n(j.loading);
+  let labour=0,crewHr=0,crewShift=0;
+  j.crew.forEach((c,i)=>{const r=roleRate(R,c.roleId)*(1+load);const cost=n(c.qty)*n(c.hrs)*shifts*r;labour+=cost;crewHr+=n(c.qty)*r;crewShift+=n(c.qty)*n(c.hrs)*r;
+    o['C'+i+'r']=money(r,2);o['C'+i+'c']=money(cost)});
+  labour+=n(j.travel);
+  let plantC=0,plantHr=0,plantShift=0;
+  j.plant.forEach((p,i)=>{const r=plantRate(byId(R.plant,p.plantId),R);const cost=n(p.qty)*n(p.hrs)*shifts*r;plantC+=cost;plantHr+=n(p.qty)*r;plantShift+=n(p.qty)*n(p.hrs)*r;
+    o['P'+i+'r']=money(r,2);o['P'+i+'c']=money(cost)});
+  const floats=n(j.floatItems)*n(j.floatTrips)*n(R.floatRate);plantC+=floats;
+  const C=j.cart,tr=byId(R.trucks,C.truckId),payload=tr?n(tr.payload):0,trRate=tr?n(tr.rate):0;
+  const cycle=(n(C.speed)>0?2*n(C.dist)/n(C.speed):0)+n(C.wait)/60;
+  const paveRate=n(P.hours)>0?tps/n(P.hours):0;
+  const trucks=payload>0&&allowT>0?ceil(paveRate*cycle/payload)+n(C.spare):0;
+  const cartage=trucks*n(C.hrs)*paveShifts*trRate,cartT=allowT>0?cartage/allowT:0;
+  const tackL=surf*n(R.tack.rate),tackC=tackL*n(R.tack.price);
+  let prep=tackC;j.prep.forEach((x,i)=>{const c=n(x.qty)*n(x.rate);prep+=c;o['X'+i+'c']=money(c)});
+  let subs=0;j.subs.forEach((s,i)=>{const it=byId(R.subs,s.subId);const r=it?n(it.rate):0;const c=n(s.qty)*r;subs+=c;o['S'+i+'u']=it?it.unit:'';o['S'+i+'r']=money(r,2);o['S'+i+'c']=money(c)});
+  let risk=0;j.risks.forEach((r,i)=>{const c=n(r.prob)*n(r.impact);risk+=c;o['R'+i+'c']=money(c)});
+  const direct=asphalt+cartage+labour+plantC+prep+subs;
+  const oh=ohPct(R),ohAmt=direct*oh,cost=direct+ohAmt+risk;
+  const margin=j.margin==null?n(R.margin):n(j.margin);
+  const calcPrice=margin<1?cost/(1-margin):0;
+  const rt=j.roundTo==null?n(R.roundTo):n(j.roundTo);
+  const price=rt>0?ceil(calcPrice/rt)*rt:calcPrice;
+  const marginAmt=price-cost,marginPct=price>0?marginAmt/price:0;
+  const perT=allowT>0?price/allowT:0,perM2=surf>0?price/surf:0;
+  const extraShift=crewShift+plantShift+trucks*n(C.hrs)*trRate;
+  const markup=margin<1?(1+oh)/(1-margin):0;
+  const A=j.actual||{};
+  const actTps=n(A.shifts)>0?n(A.tonnes)/n(A.shifts):0;
+  const actMargin=n(A.cost)>0?price-n(A.cost):0;
+  return {o,netT,allowT,asphalt,surf,avgPrice,paverT,plantT,achievable,tps,paveShifts,shifts,labour,crewHr,crewShift,plantC,floats,plantHr,plantShift,
+    payload,trRate,cycle,paveRate,trucks,cartage,cartT,tackL,tackC,prep,subs,risk,direct,oh,ohAmt,cost,margin,calcPrice,rt,price,marginAmt,marginPct,
+    perT,perM2,gst:price*0.1,inc:price*1.1,extraShift,marginAfter:marginAmt-extraShift,markup,
+    varT:(avgPrice+cartT)*markup,standby:(crewHr+plantHr+trucks*trRate)*markup,remob:(n(j.floatItems)*2*n(R.floatRate)+extraShift*0.25)*markup,
+    actTps,actMargin,actMarginPct:price>0&&n(A.cost)>0?actMargin/price:0,
+    flags:{tpsHigh:achievable>0&&tps>achievable,red:allowT>0&&marginAmt-extraShift<0,negMargin:marginAmt<0,hasActual:n(A.cost)>0||n(A.shifts)>0}};
+}
+function cardCalc(R){
+  const C=R.rateCard,m=byId(R.mixes,C.mixId),price=m?n(m.price):0,dens=m?n(m.density):0;
+  const crew=C.crew.map(c=>{const r=roleRate(R,c.roleId);return {r,s:n(c.qty)*r*n(C.hours)}});
+  const plant=C.plant.map(p=>{const r=plantRate(byId(R.plant,p.plantId),R);return {r,s:n(p.qty)*r*n(C.hours)}});
+  const perShift=crew.concat(plant).reduce((a,x)=>a+x.s,0);
+  const floats=n(C.floats)*n(R.floatRate),oh=ohPct(R),mg=n(C.margin);
+  const bands=String(C.bands||'').split(/[,\s]+/).map(Number).filter(x=>x>0).sort((a,b)=>a-b);
+  const rows=bands.map(t=>{const sh=n(C.maxT)>0?ceil(t/n(C.maxT)):0;const direct=t*(price+n(C.cart))+sh*perShift+floats;
+    const pr=mg<1?direct*(1+oh)/(1-mg):0;const area=dens*n(C.thick)>0?t/(n(C.thick)/1000*dens):0;
+    return {t,sh,pr,perT:pr/t,area,perM2:area>0?pr/area:0}});
+  return {price,dens,crew,plant,perShift,floats,oh,rows,min:rows.length?rows[0].pr:0};
+}
+
+/* ---------- storage ---------- */
+let S=load(),storageOk=true;
+function load(){try{const raw=localStorage.getItem(LS_KEY);if(raw){const d=JSON.parse(raw);if(d&&d.rates&&Array.isArray(d.jobs)){d.deleted=d.deleted||[];return d}}}catch(e){}
+  return {rates:defaultRates(),jobs:[newJob(true)],deleted:[]}}
+function persist(){try{localStorage.setItem(LS_KEY,JSON.stringify(S));storageOk=true}catch(e){storageOk=false}}
+
+/* account sync when opened inside Claude (db capability); the home-screen copy stays local */
+let DB=null,UID=null,syncState='local';
+const pending=new Set();let flushTimer=null,flushing=false;
+function queue(key){if(!DB)return;pending.add(key);clearTimeout(flushTimer);flushTimer=setTimeout(flush,1500)}
+const jobsCol=()=>DB.doc('data/users/'+UID+'/profile').collection('jobs');
+const ratesDoc=()=>DB.doc('data/users/'+UID+'/rates');
+async function writeKey(key){
+  if(key==='rates')return ratesDoc().set({json:JSON.stringify(S.rates),updatedAt:n(S.rates.updatedAt)});
+  if(key.indexOf('job:')===0){const j=S.jobs.find(x=>x.id===key.slice(4));if(j)return jobsCol().doc(j.id).set({json:JSON.stringify(j),updatedAt:n(j.updatedAt)});return}
+  if(key.indexOf('del:')===0){const id=key.slice(4);await jobsCol().doc(id).delete();S.deleted=S.deleted.filter(x=>x!==id);persist()}
+}
+async function flush(){
+  if(flushing||!DB)return;flushing=true;
+  try{while(pending.size&&DB){const key=pending.values().next().value;pending.delete(key);
+    try{await writeKey(key)}catch(e){
+      if(e&&e.code==='unavailable'){await new Promise(r=>setTimeout(r,700+Math.random()*900));try{await writeKey(key)}catch(e2){pending.add(key);break}}
+      else if(e&&(e.code==='invalid_argument'||e.code==='revoked'||e.code==='not_granted'||e.code==='capability_disabled')){DB=null;syncState='local';updateFoot()}
+      else if(e&&e.code==='quota_exceeded'){syncState='full';updateFoot()}
+      else {pending.add(key);break}}}}
+  finally{flushing=false}
+}
+async function initSync(){
+  if(!(window.claude&&typeof window.claude.use==='function'))return;
+  try{
+    const res=await Promise.all([window.claude.use('db'),window.claude.use('user')]);const db=res[0],user=res[1];
+    if(!db||!user)return;const id=await user.id();if(!id)return;DB=db;UID=id;
+    const rs=await ratesDoc().get();
+    if(rs.exists){const d=rs.data();if(n(d.updatedAt)>n(S.rates.updatedAt)){try{S.rates=JSON.parse(d.json)}catch(e){}}else if(n(d.updatedAt)<n(S.rates.updatedAt))queue('rates')}else queue('rates');
+    const qs=await jobsCol().get();const remote=new Map();
+    qs.docs.forEach(d=>{if(!d.exists)return;const b=d.data();try{remote.set(d.id,{u:n(b.updatedAt),j:JSON.parse(b.json)})}catch(e){}});
+    S.deleted.forEach(id=>{remote.delete(id);queue('del:'+id)});
+    remote.forEach((v,id)=>{const k=S.jobs.findIndex(x=>x.id===id);if(k<0)S.jobs.push(v.j);else if(v.u>n(S.jobs[k].updatedAt))S.jobs[k]=v.j;else if(v.u<n(S.jobs[k].updatedAt))queue('job:'+id)});
+    S.jobs.forEach(j=>{if(!remote.has(j.id))queue('job:'+j.id)});
+    persist();syncState='account';render(true);
+  }catch(e){DB=null;syncState='local'}
+}
+function updateFoot(){const f=$('#foot-sync');if(f)f.textContent=syncText()}
+function syncText(){return !storageOk?'This device is not letting the app save. Copy a backup before you close it.':syncState==='account'?'Saved on this device and to your Claude account.':syncState==='full'?'Saved on this device. Your account storage is full, so older estimates are not syncing.':'Saved on this device.'}
+
+/* ---------- UI state ---------- */
+let view='jobs',jobId=null,tab='job',armed=null;const openPlant=new Set();
+const curJob=()=>S.jobs.find(x=>x.id===jobId);
+const TABS=[['job','Job'],['take','Take-off'],['prod','Productivity'],['crew','Crew & plant'],['cart','Cartage'],['extra','Extras'],['risk','Risks'],['sum','Summary'],['quote','Quote']];
+
+/* ---------- controls ---------- */
+function inNum(path,val,o){o=o||{};const v=val==null||val===''?'':(o.pct?+(n(val)*100).toFixed(4):val);
+  return `<input type="text" inputmode="decimal" autocomplete="off" data-bind="${path}" data-t="${o.pct?'p':'n'}" value="${esc(v)}"${o.label?` aria-label="${esc(o.label)}"`:''}${o.ph!=null?` placeholder="${esc(o.ph)}"`:''}>`}
+function inText(path,val,label){return `<input type="text" autocomplete="off" data-bind="${path}" data-t="s" value="${esc(val)}"${label?` aria-label="${esc(label)}"`:''}>`}
+function sel(path,options,cur,label){const vals=options.map(o=>Array.isArray(o)?o[0]:o);
+  return `<select data-bind="${path}" data-t="s"${label?` aria-label="${esc(label)}"`:''}>${options.map(o=>{const v=Array.isArray(o)?o[0]:o,l=Array.isArray(o)?o[1]:o;return `<option value="${esc(v)}"${v===cur?' selected':''}>${esc(l)}</option>`}).join('')}${cur&&vals.indexOf(cur)<0?`<option value="${esc(cur)}" selected>(removed from library)</option>`:''}</select>`}
+function field(label,control,unit,cls){return `<label class="f${cls?' '+cls:''}"><span class="fl">${label}</span><span class="fc">${control}${unit?`<em>${unit}</em>`:''}</span></label>`}
+function ro(label,key,f,cls){return `<div class="ro${cls?' '+cls:''}"><span class="fl">${label}</span><strong data-out="${key}|${f||''}"></strong></div>`}
+function rrow(label,key,cls){return `<div class="ro${cls?' '+cls:''}"><span class="fl">${label}</span><strong data-rout="${key}"></strong></div>`}
+const rm=(p,i,what)=>`<button class="x" data-act="rm" data-p="${p}" data-i="${i}" aria-label="Remove ${esc(what||'row')}">×</button>`;
+const th=labels=>labels.map(l=>`<div class="th${/Cost|Allowance|Tonnes|\$\/h|Rate|All-in|per shift/.test(l)?' num':''}">${l}</div>`).join('');
+
+/* ---------- views ---------- */
+function topbar(){
+  const cur=view==='job'||view==='backup'?'jobs':view;
+  return `<header class="top"><div class="brand"><span class="mark" aria-hidden="true"></span>Asphalt estimator</div>
+  <nav class="seg" aria-label="Main">${[['jobs','Estimates'],['rates','Rate library'],['card','Rate card']].map(([k,l])=>`<button data-act="nav" data-v="${k}" aria-current="${cur===k?'page':'false'}">${l}</button>`).join('')}</nav></header>`}
+
+function jobsView(){
+  const jobs=S.jobs.slice().sort((a,b)=>n(b.updatedAt)-n(a.updatedAt));
+  return `<main class="wrap">
+  ${!S.rates.setupDone?`<div class="banner"><p><strong>Set up your rates before quoting real work.</strong> Every rate in the library is a placeholder, including the example estimate below.</p>
+    <div class="row"><button class="btn primary" data-act="nav" data-v="rates">Open rate library</button><button class="btn" data-act="setup-done">I've set my rates</button></div></div>`:''}
+  <div class="head"><h1>Estimates</h1><button class="btn primary" data-act="new-job">New estimate</button></div>
+  ${jobs.length?`<ul class="jobs">${jobs.map(j=>{const r=compute(j,S.rates);return `<li><button class="jobrow" data-act="open-job" data-id="${j.id}">
+    <span class="jn"><strong>${esc(j.name||'Untitled estimate')}</strong><span>${esc([j.client,j.location].filter(Boolean).join(', ')||'No client yet')}</span></span>
+    <span class="st st-${esc(String(j.status).toLowerCase())}">${esc(j.status)}</span><span class="jd">${fmtDate(j.date)}</span>
+    <span class="jp"><strong>${money(r.price)}</strong><span>${r.allowT>0?money(r.perT,0)+'/t':'No tonnes yet'}</span></span></button></li>`}).join('')}</ul>`
+  :`<div class="empty"><p>No estimates yet. Start one and work through it tab by tab.</p><button class="btn primary" data-act="new-job">New estimate</button></div>`}
+  <p class="foot"><span id="foot-sync">${syncText()}</span> <button class="link" data-act="nav" data-v="backup">Back up or restore</button></p></main>`}
+
+function jobView(){
+  const j=curJob();if(!j){view='jobs';return jobsView()}
+  const r=compute(j,S.rates);const ti=TABS.findIndex(t=>t[0]===tab);const nx=TABS[ti+1];
+  return `<main class="wrap jobwrap"><div class="jobhead"><button class="back" data-act="nav" data-v="jobs">‹ Estimates</button>
+    <div class="jt"><input class="title-in" type="text" data-bind="j.name" data-t="s" value="${esc(j.name)}" aria-label="Job name">
+    <label class="stsel">Status ${sel('j.status',['Draft','Sent','Won','Lost'],j.status)}</label></div>
+    <div class="row"><button class="btn sm" data-act="dup-job">Duplicate</button><button class="btn sm danger" data-act="del-job">${armed==='del-job'?'Tap again to delete':'Delete'}</button></div></div>
+  <div class="tabs" role="tablist" aria-label="Estimate steps">${TABS.map(([k,l])=>`<button role="tab" class="tab" data-act="tab" data-v="${k}" aria-selected="${tab===k}">${l}</button>`).join('')}</div>
+  <div class="job"><section class="pane">${section(j,r)}${nx?`<div class="next"><button class="btn" data-act="tab" data-v="${nx[0]}">Next: ${nx[1]}</button></div>`:''}</section>
+  <aside class="panel" id="panel" aria-label="Live price">${panelHTML(j,r)}</aside></div>
+  <button class="bar" id="bar" data-act="tab" data-v="sum" aria-label="Open price summary">${barHTML(r)}</button></main>`}
+
+function section(j,r){
+  const R=S.rates;
+  switch(tab){
+  case 'job':return `<h2>Job details</h2><div class="grid">
+    ${field('Client',inText('j.client',j.client))}
+    ${field('Client type',sel('j.clientType',['Private','Council','Head contractor','TfNSW'],j.clientType))}
+    ${field('Location',inText('j.location',j.location))}
+    ${field('Estimate date',`<input type="date" data-bind="j.date" data-t="s" value="${esc(j.date)}">`)}
+    ${field('Estimator',inText('j.estimator',j.estimator))}
+    ${field('Pricing basis',sel('j.basis',['Lump sum','$ per tonne','$ per m²'],j.basis))}
+    ${field('Work window',sel('j.window',['Day','Night','Weekend'],j.window))}
+    ${field('Labour loading for night or weekend work',inNum('j.loading',j.loading,{pct:true}),'%')}
+    ${field('Site visit done',sel('j.siteVisit',['Yes','No'],j.siteVisit))}</div>
+    ${j.siteVisit!=='Yes'?`<p class="warn">Visit the site before you price it. Base condition, levels, access and truck turnaround all change the number.</p>`:''}
+    ${j.window!=='Day'&&!n(j.loading)?`<p class="warn">${esc(j.window)} work usually attracts penalty rates. Set the labour loading from your award or agreement.</p>`:''}
+    <label class="f wide"><span class="fl">Notes</span><textarea data-bind="j.notes" data-t="s" rows="4">${esc(j.notes)}</textarea></label>`;
+
+  case 'take':return `<h2>Take-off</h2><p class="note">Tonnes = area × compacted thickness × density. The allowance covers waste, handwork and an uneven base, typically 3–5%, more on rough or irregular bases. Tick the layers that make up the finished surface; they set the area for $/m² and tack coat.</p>
+    <div class="tbl" style="--cols:minmax(130px,2fr) 108px 92px 76px 76px 56px minmax(96px,1fr) 44px">
+    ${th(['Area or layer','Mix','Area m²','Thick. mm','Allow. %','Surface','Tonnes',''])}
+    ${j.layers.map((L,i)=>`<div class="tr"><div data-label="Area or layer">${inText(`j.layers.${i}.desc`,L.desc,'Area or layer')}</div>
+      <div data-label="Mix">${sel(`j.layers.${i}.mixId`,R.mixes.map(m=>[m.id,m.name]),L.mixId,'Mix')}<span class="sub-note" data-out="L${i}d|"></span></div>
+      <div data-label="Area m²">${inNum(`j.layers.${i}.area`,L.area,{label:'Area m²'})}</div>
+      <div data-label="Thickness mm">${inNum(`j.layers.${i}.thick`,L.thick,{label:'Compacted thickness mm'})}</div>
+      <div data-label="Allowance %">${inNum(`j.layers.${i}.allow`,L.allow,{pct:true,label:'Allowance %'})}</div>
+      <div data-label="Surface"><input type="checkbox" data-bind="j.layers.${i}.surface" data-t="b"${L.surface?' checked':''} aria-label="Surface layer"></div>
+      <div class="num cell-out" data-label="Tonnes"><strong data-out="L${i}t|"></strong><small data-out="L${i}c|"></small></div>
+      <div>${rm('j.layers',i,'layer')}</div></div>`).join('')}</div>
+    <button class="btn add" data-act="add" data-v="layers">Add area or layer</button>
+    <div class="grid" style="margin-top:20px">${ro('Net tonnes','netT','t')}${ro('Tonnes incl. allowance','allowT','t','key')}${ro('Surface area','surf','a')}${ro('Asphalt cost','asphalt','m')}</div>`;
+
+  case 'prod':return `<h2>Productivity</h2><p class="note">This sets how many shifts the job takes, which is where jobs make or lose money. Tonnes are easy to measure; shifts are not.</p>
+    <h3>What the paver and plant can do</h3><div class="grid">
+    ${field('Productive paving hours per shift',inNum('j.prod.hours',j.prod.hours),'h')}
+    ${field('Paving width',inNum('j.prod.width',j.prod.width),'m')}
+    ${field('Paver speed',inNum('j.prod.speed',j.prod.speed),'m/min')}
+    ${field('Paver efficiency (stops, truck changes, handwork)',inNum('j.prod.eff',j.prod.eff,{pct:true}),'%')}
+    ${field('Plant supply rate on the day',inNum('j.prod.plantRate',j.prod.plantRate),'t/h')}</div>
+    <div class="grid" style="margin-top:14px">${ro('Paver-limited, per shift','paverT','ts')}${ro('Plant-limited, per shift','plantT','ts')}${ro('Achievable per shift','achievable','ts','key')}</div>
+    <p class="note" style="margin-top:8px">The paver check uses the first take-off layer's thickness and mix.</p>
+    <h3>What you'll allow in this estimate</h3><div class="grid">
+    ${field('Tonnes per shift used',inNum('j.prod.tps',j.prod.tps),'t','keyin')}
+    ${field('Extra non-paving shifts (prep, profiling, patching)',inNum('j.prod.extra',j.prod.extra))}</div>
+    <div class="warn" data-if="tpsHigh">The tonnes per shift you've allowed is above what the paver or plant can achieve on these settings.</div>
+    <div class="grid" style="margin-top:14px">${ro('Paving shifts','paveShifts','n0')}${ro('Total shifts on site','shifts','n0','key')}</div>
+    <p class="note" style="margin-top:10px">Use your own job records where you have them, and record actuals in the Summary tab after every job.</p>`;
+
+  case 'crew':return `<h2>Crew</h2><p class="note">All-in rates (wage plus on-costs) come from the rate library, with this job's labour loading applied. Cost = qty × hours × shifts on site × rate.</p>
+    <div class="tbl" style="--cols:minmax(150px,2fr) 70px 90px minmax(90px,1fr) minmax(90px,1fr) 44px">
+    ${th(['Role','Qty','Hours per shift','All-in $/h','Cost',''])}
+    ${j.crew.map((c,i)=>`<div class="tr"><div data-label="Role">${sel(`j.crew.${i}.roleId`,R.roles.map(x=>[x.id,x.name]),c.roleId,'Role')}</div>
+      <div data-label="Qty">${inNum(`j.crew.${i}.qty`,c.qty,{label:'Quantity'})}</div><div data-label="Hours per shift">${inNum(`j.crew.${i}.hrs`,c.hrs,{label:'Hours per shift'})}</div>
+      <div class="num cell-out" data-label="All-in $/h"><strong data-out="C${i}r|"></strong></div><div class="num cell-out" data-label="Cost"><strong data-out="C${i}c|"></strong></div>
+      <div>${rm('j.crew',i,'crew member')}</div></div>`).join('')}</div>
+    <button class="btn add" data-act="add" data-v="crew">Add crew</button>
+    <div class="grid" style="margin-top:16px">${field('Travel, accommodation and living-away allowances',inNum('j.travel',j.travel),'$')}</div>
+    <div class="grid" style="margin-top:12px">${ro('Crew cost per shift','crewShift','m')}${ro('Shifts on site','shifts','n0')}${ro('Total labour','labour','m','key')}</div>
+    <h2>Plant</h2><p class="note">Internal hourly rates cover ownership and running costs. Hired items use the hire rate.</p>
+    <div class="tbl" style="--cols:minmax(150px,2fr) 70px 90px minmax(90px,1fr) minmax(90px,1fr) 44px">
+    ${th(['Plant item','Qty','Hours per shift','$/h','Cost',''])}
+    ${j.plant.map((p,i)=>`<div class="tr"><div data-label="Plant item">${sel(`j.plant.${i}.plantId`,R.plant.map(x=>[x.id,x.name]),p.plantId,'Plant item')}</div>
+      <div data-label="Qty">${inNum(`j.plant.${i}.qty`,p.qty,{label:'Quantity'})}</div><div data-label="Hours per shift">${inNum(`j.plant.${i}.hrs`,p.hrs,{label:'Hours per shift'})}</div>
+      <div class="num cell-out" data-label="$/h"><strong data-out="P${i}r|"></strong></div><div class="num cell-out" data-label="Cost"><strong data-out="P${i}c|"></strong></div>
+      <div>${rm('j.plant',i,'plant item')}</div></div>`).join('')}</div>
+    <button class="btn add" data-act="add" data-v="plant">Add plant</button>
+    <h3>Floats</h3><div class="grid">
+    ${field('Items floated',inNum('j.floatItems',j.floatItems))}${field('Trips per item (in and out = 2)',inNum('j.floatTrips',j.floatTrips))}
+    ${ro('Float cost ('+money(R.floatRate)+' per movement)','floats','m')}</div>
+    <div class="grid" style="margin-top:12px">${ro('Plant cost per shift','plantShift','m')}${ro('Total plant and floats','plantC','m','key')}</div>`;
+
+  case 'cart':return `<h2>Cartage</h2><p class="note">Trucks needed = paving rate × round-trip time ÷ payload, plus spares so the paver never stops. A stopped paver costs money and ride quality.</p>
+    <div class="grid">${field('Truck type',sel('j.cart.truckId',R.trucks.map(t=>[t.id,t.name]),j.cart.truckId))}${ro('Payload','payload','ts')}${ro('Hire rate','trRate','ph')}</div>
+    <div class="grid" style="margin-top:14px">
+    ${field('One-way haul distance',inNum('j.cart.dist',j.cart.dist),'km')}
+    ${field('Average travel speed',inNum('j.cart.speed',j.cart.speed),'km/h')}
+    ${field('Load, tip and wait time per load',inNum('j.cart.wait',j.cart.wait),'min')}
+    ${field('Spare trucks',inNum('j.cart.spare',j.cart.spare))}
+    ${field('Truck hours per paving shift',inNum('j.cart.hrs',j.cart.hrs),'h')}</div>
+    <div class="grid" style="margin-top:14px">${ro('Round-trip time','cycle','h')}${ro('Paving rate','paveRate','th')}${ro('Trucks required','trucks','n0','key')}${ro('Cartage cost','cartage','m','key')}${ro('Cartage per tonne','cartT','pt')}</div>
+    <p class="note" style="margin-top:10px">Be honest about traffic at the time you'll be hauling, and check spec limits on haul time and mix temperature for long hauls.</p>`;
+
+  case 'extra':return `<h2>Prep and other materials</h2>
+    <div class="grid">${ro('Tack coat emulsion ('+num(R.tack.rate,2)+' L/m² at '+money(R.tack.price,2)+'/L)','tackL','L')}${ro('Tack coat cost','tackC','m')}</div>
+    <div class="tbl" style="--cols:minmax(150px,2fr) 80px 80px 96px minmax(90px,1fr) 44px;margin-top:14px">
+    ${th(['Item','Qty','Unit','Rate $','Cost',''])}
+    ${j.prep.map((x,i)=>`<div class="tr"><div data-label="Item">${inText(`j.prep.${i}.desc`,x.desc,'Item')}</div><div data-label="Qty">${inNum(`j.prep.${i}.qty`,x.qty,{label:'Quantity'})}</div>
+      <div data-label="Unit">${inText(`j.prep.${i}.unit`,x.unit,'Unit')}</div><div data-label="Rate $">${inNum(`j.prep.${i}.rate`,x.rate,{label:'Rate'})}</div>
+      <div class="num cell-out" data-label="Cost"><strong data-out="X${i}c|"></strong></div><div>${rm('j.prep',i,'item')}</div></div>`).join('')}</div>
+    <button class="btn add" data-act="add" data-v="prep">Add item</button>
+    <div class="grid" style="margin-top:12px">${ro('Total prep and materials','prep','m','key')}</div>
+    <h2>Subcontracts and one-offs</h2><p class="note">Traffic control is often the biggest surprise on road jobs. For "allowance $" items, enter the dollar amount as the quantity. The RAP credit only applies where the contract lets you keep the millings.</p>
+    <div class="tbl" style="--cols:minmax(170px,2fr) 90px 90px minmax(80px,1fr) minmax(90px,1fr) 44px">
+    ${th(['Item','Qty','Unit','Rate','Cost',''])}
+    ${j.subs.map((s,i)=>`<div class="tr"><div data-label="Item">${sel(`j.subs.${i}.subId`,R.subs.map(x=>[x.id,x.name]),s.subId,'Item')}</div>
+      <div data-label="Qty">${inNum(`j.subs.${i}.qty`,s.qty,{label:'Quantity'})}</div><div class="cell-out" data-label="Unit"><small data-out="S${i}u|"></small></div>
+      <div class="num cell-out" data-label="Rate"><strong data-out="S${i}r|"></strong></div><div class="num cell-out" data-label="Cost"><strong data-out="S${i}c|"></strong></div>
+      <div>${rm('j.subs',i,'item')}</div></div>`).join('')}</div>
+    <button class="btn add" data-act="add" data-v="subs">Add subcontract or one-off</button>
+    <div class="grid" style="margin-top:12px">${ro('Total subcontracts and one-offs','subs','m','key')}</div>`;
+
+  case 'risk':return `<h2>Risks</h2><p class="note">Price the specific things that could go wrong rather than adding a blanket contingency. Allowance = probability × cost if it happens. Better still, deal with the risk in the quote's assumptions.</p>
+    <div class="tbl" style="--cols:minmax(150px,2fr) minmax(130px,1.5fr) 80px 100px minmax(80px,1fr) 44px">
+    ${th(['Risk','Mitigation','Chance %','Cost if it happens $','Allowance',''])}
+    ${j.risks.map((x,i)=>`<div class="tr"><div data-label="Risk">${inText(`j.risks.${i}.desc`,x.desc,'Risk')}</div><div data-label="Mitigation">${inText(`j.risks.${i}.mit`,x.mit,'Mitigation')}</div>
+      <div data-label="Chance %">${inNum(`j.risks.${i}.prob`,x.prob,{pct:true,label:'Chance %'})}</div><div data-label="Cost if it happens">${inNum(`j.risks.${i}.impact`,x.impact,{label:'Cost if it happens'})}</div>
+      <div class="num cell-out" data-label="Allowance"><strong data-out="R${i}c|"></strong></div><div>${rm('j.risks',i,'risk')}</div></div>`).join('')}</div>
+    <button class="btn add" data-act="add" data-v="risks">Add risk</button>
+    <div class="grid" style="margin-top:12px">${ro('Total risk allowance','risk','m','key')}</div>`;
+
+  case 'sum':{
+    const dm=j.margin==null,dr=j.roundTo==null;
+    return `<h2>Price build-up</h2><dl class="sumlist">
+    ${[['Asphalt supply','asphalt'],['Cartage','cartage'],['Labour','labour'],['Plant and floats','plantC'],['Prep and materials','prep'],['Subcontracts and one-offs','subs']].map(([l,k])=>`<div><dt>${l}</dt><dd data-out="${k}|m"></dd></div>`).join('')}
+    <div class="tot"><dt>Direct cost</dt><dd data-out="direct|m"></dd></div>
+    <div><dt>Overhead recovery (<span data-out="oh|p"></span> from rate library)</dt><dd data-out="ohAmt|m"></dd></div>
+    <div><dt>Risk allowance</dt><dd data-out="risk|m"></dd></div>
+    <div class="tot"><dt>Total cost</dt><dd data-out="cost|m"></dd></div>
+    <div class="in"><dt>Target margin on price ${dm?'<span class="muted">(library default)</span>':`<button class="link" data-act="reset" data-v="margin">Use default</button>`}</dt><dd><span class="fc">${inNum('j.margin',dm?R.margin:j.margin,{pct:true,label:'Target margin %'})}<em>%</em></span></dd></div>
+    <div class="in"><dt>Round up to nearest ${dr?'':`<button class="link" data-act="reset" data-v="roundTo">Use default</button>`}</dt><dd><span class="fc"><em>$</em>${inNum('j.roundTo',dr?R.roundTo:j.roundTo,{label:'Round up to nearest dollar amount'})}</span></dd></div>
+    <div class="final"><dt><strong>Quoted price, ex GST</strong></dt><dd data-out="price|m"></dd></div>
+    <div><dt>Margin</dt><dd><span data-out="marginAmt|m"></span> (<span data-out="marginPct|p"></span>)</dd></div>
+    <div><dt>Price per tonne</dt><dd data-out="perT|pt"></dd></div>
+    <div><dt>Price per m² of surface</dt><dd data-out="perM2|pm"></dd></div>
+    <div><dt>GST</dt><dd data-out="gst|m"></dd></div>
+    <div class="tot"><dt>Price inc GST</dt><dd data-out="inc|m"></dd></div></dl>
+    <h2>If it goes long</h2><dl class="sumlist">
+    <div><dt>Cost of one extra shift (crew, plant, trucks)</dt><dd data-out="extraShift|m"></dd></div>
+    <div><dt>Margin left if the job takes one extra shift</dt><dd data-out="marginAfter|m"></dd></div></dl>
+    <p class="warn" data-if="red">One lost shift puts this job in the red. Check the tonnes per shift, or protect yourself in the quote with a standby rate and a base-readiness hold point.</p>
+    <h2>Rates for variations</h2><p class="note">Marked up by overhead and margin. These appear on the quote.</p><dl class="sumlist">
+    <div><dt>Additional asphalt supplied and laid</dt><dd data-out="varT|pt"></dd></div>
+    <div><dt>Standby (crew, plant and trucks)</dt><dd data-out="standby|ph"></dd></div>
+    <div><dt>Remobilisation, each</dt><dd data-out="remob|m"></dd></div></dl>
+    <h2>After the job</h2><p class="note">Record what really happened. Actual tonnes per shift is the best input for your next estimate.</p>
+    <div class="grid">${field('Actual tonnes laid',inNum('j.actual.tonnes',j.actual.tonnes),'t')}${field('Actual shifts',inNum('j.actual.shifts',j.actual.shifts))}${field('Actual total cost',inNum('j.actual.cost',j.actual.cost),'$')}</div>
+    <div class="grid" style="margin-top:12px" data-if="hasActual">${ro('Actual tonnes per shift','actTps','ts','key')}${ro('Estimated tonnes per shift','tps','ts')}${ro('Actual margin','actMargin','m')}${ro('Actual margin %','actMarginPct','p')}</div>`}
+
+  case 'quote':return `<div class="row" style="margin:18px 0 14px"><button class="btn primary" data-act="copy-quote">Copy quote as text</button><span class="status" id="qmsg" role="status"></span></div>
+    <article class="doc" id="qdoc">${quoteDoc(j,r)}</article>
+    <div class="qedit"><h2>Quote wording</h2><p class="note">One item per line.</p>
+    ${field('Your company name (saved to the rate library)',inText('R.company',R.company))}
+    <label class="f wide"><span class="fl">Inclusions</span><textarea rows="5" data-bind="j.quote.incl" data-t="s">${esc(j.quote.incl)}</textarea></label>
+    <label class="f wide"><span class="fl">Exclusions</span><textarea rows="5" data-bind="j.quote.excl" data-t="s">${esc(j.quote.excl)}</textarea></label>
+    <label class="f wide"><span class="fl">Assumptions</span><textarea rows="5" data-bind="j.quote.assm" data-t="s">${esc(j.quote.assm)}</textarea></label>
+    <label class="f wide"><span class="fl">Price basis and terms</span><textarea rows="4" data-bind="j.quote.terms" data-t="s">${esc(j.quote.terms)}</textarea></label>
+    <details style="margin-top:16px"><summary>Plain text version</summary><textarea id="qtxt" rows="12" readonly style="margin-top:8px">${esc(quoteText(j,r))}</textarea></details></div>`;
+  }
+  return '';
+}
+
+function scopeText(j,r){const parts=j.layers.filter(L=>n(L.area)>0).map(L=>{const m=byId(S.rates.mixes,L.mixId);return `${m?m.name:'asphalt'} at ${num(L.thick)} mm compacted over ${num(L.area)} m²`});
+  return `Supply and lay approximately ${num(r.allowT,0)} t of asphalt${parts.length?': '+parts.join('; '):''}.`}
+function measureText(j){return j.basis==='$ per tonne'?'Measured by weighbridge dockets.':j.basis==='$ per m²'?'Measured area at the stated compacted thickness.':'Fixed price for the scope described, subject to the assumptions below.'}
+const lines=s=>String(s||'').split('\n').map(x=>x.trim()).filter(Boolean);
+function rateLine(j,r){return j.basis==='$ per tonne'?money(r.perT,2)+' per tonne':j.basis==='$ per m²'?money(r.perM2,2)+' per m²':''}
+function quoteDoc(j,r){const R=S.rates;const list=s=>{const l=lines(s);return l.length?`<ul>${l.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:'<p class="muted">None listed.</p>'};const rl=rateLine(j,r);
+  return `<div class="co">${esc(R.company||'Your company name')}</div><h2>Quotation</h2>
+  <table><tr><th>Client</th><td>${esc(j.client||'–')}</td></tr><tr><th>Job</th><td>${esc(j.name)}</td></tr><tr><th>Location</th><td>${esc(j.location||'–')}</td></tr>
+  <tr><th>Date</th><td>${fmtDate(j.date)}</td></tr><tr><th>Valid until</th><td>${fmtDate(addDays(j.date,R.validity))} (${num(R.validity)} days)</td></tr>
+  <tr><th>Work window</th><td>${esc(j.window)}</td></tr></table>
+  <h3>Scope</h3><p>${esc(scopeText(j,r))}</p><p>${esc(measureText(j))}</p>
+  <h3>Price</h3><table><tr><th>${rl?'Rate':'Lump sum'}, ex GST</th><td class="price">${rl?esc(rl):money(r.price)}</td></tr>
+  ${rl?`<tr><th>Estimated total, ex GST</th><td>${money(r.price)}</td></tr>`:''}<tr><th>GST</th><td>${money(r.gst)}</td></tr><tr><th>Total inc GST</th><td>${money(r.inc)}</td></tr></table>
+  <h3>Rates for variations (ex GST)</h3><table><tr><th>Additional asphalt supplied and laid</th><td>${money(r.varT,2)} per tonne</td></tr>
+  <tr><th>Standby, crew, plant and trucks</th><td>${money(r.standby,2)} per hour</td></tr><tr><th>Remobilisation</th><td>${money(r.remob)} each</td></tr></table>
+  <h3>Inclusions</h3>${list(j.quote.incl)}<h3>Exclusions</h3>${list(j.quote.excl)}<h3>Assumptions</h3>${list(j.quote.assm)}<h3>Price basis and terms</h3>${list(j.quote.terms)}`}
+function quoteText(j,r){const R=S.rates;const rl=rateLine(j,r);const b=s=>lines(s).map(x=>'- '+x).join('\n');
+  return [`${R.company||'Your company name'}`,'QUOTATION','',`Client: ${j.client||'-'}`,`Job: ${j.name}`,`Location: ${j.location||'-'}`,`Date: ${fmtDate(j.date)}`,`Valid until: ${fmtDate(addDays(j.date,R.validity))}`,`Work window: ${j.window}`,'',
+    'SCOPE',scopeText(j,r),measureText(j),'','PRICE',rl?`Rate: ${rl} ex GST`:`Lump sum: ${money(r.price)} ex GST`,rl?`Estimated total: ${money(r.price)} ex GST`:'',`GST: ${money(r.gst)}`,`Total inc GST: ${money(r.inc)}`,'',
+    'RATES FOR VARIATIONS (ex GST)',`Additional asphalt supplied and laid: ${money(r.varT,2)} per tonne`,`Standby, crew, plant and trucks: ${money(r.standby,2)} per hour`,`Remobilisation: ${money(r.remob)} each`,'',
+    'INCLUSIONS',b(j.quote.incl),'','EXCLUSIONS',b(j.quote.excl),'','ASSUMPTIONS',b(j.quote.assm),'','PRICE BASIS AND TERMS',b(j.quote.terms)].filter((x,i,a)=>!(x===''&&a[i-1]==='')).join('\n')}
+
+function panelHTML(j,r){
+  const seg=[['Asphalt',r.asphalt,'c1'],['Cartage',r.cartage,'c2'],['Labour',r.labour,'c3'],['Plant',r.plantC,'c4'],['Extras',r.prep+r.subs,'c5'],['Overhead',r.ohAmt,'c6'],['Risk',r.risk,'c7'],['Margin',Math.max(0,r.marginAmt),'c8']];
+  const tot=seg.reduce((a,s)=>a+Math.max(0,s[1]),0);
+  return `<p class="pl">Quoted price, ex GST</p><p class="big">${money(r.price)}</p><p class="sub">${money(r.inc)} inc GST</p><div class="lane" aria-hidden="true"></div>
+  <dl class="kv"><div><dt>Per tonne</dt><dd>${r.allowT>0?money(r.perT,2):'–'}</dd></div><div><dt>Per m²</dt><dd>${r.surf>0?money(r.perM2,2):'–'}</dd></div>
+  <div><dt>Margin</dt><dd class="${r.marginAmt<0?'neg':''}">${money(r.marginAmt)}<br><span style="font-size:15px">${pct(r.marginPct)}</span></dd></div>
+  <div><dt>Tonnes and shifts</dt><dd>${num(r.allowT,0)} t<br><span style="font-size:15px">${r.shifts} shift${r.shifts===1?'':'s'}</span></dd></div></dl>
+  ${tot>0?`<div class="stack" role="img" aria-label="Where the price goes">${seg.map(s=>s[1]>0?`<span class="${s[2]}" style="width:${(s[1]/tot*100).toFixed(2)}%"></span>`:'').join('')}</div>
+  <ul class="legend">${seg.map(s=>`<li><i class="${s[2]}"></i>${s[0]}<b>${tot>0?Math.round(Math.max(0,s[1])/tot*100):0}%</b></li>`).join('')}</ul>`:''}
+  ${r.allowT>0?(r.marginAfter<0?`<p class="alert">One extra shift costs ${money(r.extraShift)} and would leave this job at ${money(r.marginAfter)}.</p>`:`<p class="calm">One extra shift costs ${money(r.extraShift)}. The job would still clear ${money(r.marginAfter)}.</p>`):'<p class="calm">Add areas in the take-off to price the job.</p>'}`}
+function barHTML(r){return `<span><small>Price ex GST</small><strong>${money(r.price)}</strong></span><span><small>Per tonne</small><strong>${r.allowT>0?money(r.perT,0):'–'}</strong></span><span><small>Margin</small><strong class="${r.marginAmt<0?'neg':''}">${pct(r.marginPct)}</strong></span>`}
+
+function ratesView(){
+  const R=S.rates,O=R.overhead;
+  const tbl=(cols,heads,rows,addKey,addLabel)=>`<div class="tbl" style="--cols:${cols}">${th(heads)}${rows}</div><button class="btn add" data-act="radd" data-v="${addKey}">${addLabel}</button>`;
+  return `<main class="wrap narrow"><h1>Rate library</h1><p class="note" style="margin-top:10px">Company-wide rates every estimate uses. They start as placeholders. Replace them with your own, review them quarterly, and update asphalt prices monthly because bitumen moves.</p>
+  <section class="blk"><h2>Company and quote defaults</h2><div class="grid">
+  ${field('Company name on quotes',inText('R.company',R.company))}${field('Default target margin, on price',inNum('R.margin',R.margin,{pct:true}),'%')}
+  ${field('Round quotes up to nearest',inNum('R.roundTo',R.roundTo),'$')}${field('Quote validity',inNum('R.validity',R.validity),'days')}
+  ${field('Diesel, net of fuel tax credits',inNum('R.fuel',R.fuel),'$/L')}${field('Float cost per movement',inNum('R.floatRate',R.floatRate),'$')}
+  ${field('Tack coat emulsion',inNum('R.tack.price',R.tack.price),'$/L')}${field('Tack coat application rate',inNum('R.tack.rate',R.tack.rate),'L/m²')}</div></section>
+  <section class="blk"><h2>Labour on-costs</h2><p class="note">As a percentage of base wage. Check super, workers comp and payroll tax rates for your business.</p>
+  ${tbl('minmax(200px,3fr) 110px 44px',['Item','% of wage',''],R.oncost.map((x,i)=>`<div class="tr"><div data-label="Item">${inText(`R.oncost.${i}.name`,x.name,'On-cost item')}</div><div data-label="% of wage">${inNum(`R.oncost.${i}.pct`,x.pct,{pct:true,label:'Percent of wage'})}</div><div>${rm('R.oncost',i,'on-cost')}</div></div>`).join(''),'oncost','Add on-cost')}
+  <div class="grid" style="margin-top:12px">${rrow('Total on-cost','oc','key')}</div></section>
+  <section class="blk"><h2>Crew rates</h2>
+  ${tbl('minmax(180px,3fr) 120px minmax(100px,1fr) 44px',['Role','Base wage $/h','All-in $/h',''],R.roles.map((x,i)=>`<div class="tr"><div data-label="Role">${inText(`R.roles.${i}.name`,x.name,'Role')}</div><div data-label="Base wage $/h">${inNum(`R.roles.${i}.base`,x.base,{label:'Base wage per hour'})}</div><div class="num cell-out" data-label="All-in $/h"><strong data-rout="role:${x.id}"></strong></div><div>${rm('R.roles',i,x.name)}</div></div>`).join(''),'roles','Add role')}</section>
+  <section class="blk"><h2>Plant</h2><p class="note">Internal hourly rate = depreciation + finance and insurance + fuel + maintenance and wear. Operators are costed in the crew. Tap an item to edit it.</p>
+  ${R.plant.map((p,i)=>`<details class="pl-item" data-pid="${p.id}"${openPlant.has(p.id)?' open':''}><summary><span>${esc(p.name)}</span><span class="muted">${esc(p.type)}</span><strong data-rout="plant:${p.id}"></strong></summary>
+    <div class="grid">${field('Name',inText(`R.plant.${i}.name`,p.name))}${field('Owned or hired',sel(`R.plant.${i}.type`,['Owned','Hired'],p.type))}
+    ${p.type==='Hired'?field('Hire rate',inNum(`R.plant.${i}.hire`,p.hire),'$/h'):
+      field('Capital cost',inNum(`R.plant.${i}.capital`,p.capital),'$')+field('Residual value',inNum(`R.plant.${i}.residual`,p.residual,{pct:true}),'%')+
+      field('Working life',inNum(`R.plant.${i}.life`,p.life),'hours')+field('Hours used per year',inNum(`R.plant.${i}.annual`,p.annual),'hours')+
+      field('Finance and insurance',inNum(`R.plant.${i}.fin`,p.fin,{pct:true}),'% p.a.')+field('Fuel use',inNum(`R.plant.${i}.fuelLph`,p.fuelLph),'L/h')+
+      field('Maintenance and wear',inNum(`R.plant.${i}.maint`,p.maint),'$/h')}</div>
+    <button class="btn sm danger" data-act="rm" data-p="R.plant" data-i="${i}">Remove ${esc(p.name)}</button></details>`).join('')}
+  <button class="btn add" data-act="radd" data-v="plant" style="margin-top:12px">Add plant item</button></section>
+  <section class="blk"><h2>Asphalt mixes</h2><p class="note">If the asphalt comes from your own plant, enter the agreed transfer price, not plant cost, so contracting margin is measured honestly. Use the density from each mix design.</p>
+  ${tbl('minmax(140px,2fr) 120px 120px 44px',['Mix','Price $/t','Density t/m³',''],R.mixes.map((x,i)=>`<div class="tr"><div data-label="Mix">${inText(`R.mixes.${i}.name`,x.name,'Mix')}</div><div data-label="Price $/t">${inNum(`R.mixes.${i}.price`,x.price,{label:'Price per tonne'})}</div><div data-label="Density t/m³">${inNum(`R.mixes.${i}.density`,x.density,{label:'Density'})}</div><div>${rm('R.mixes',i,x.name)}</div></div>`).join(''),'mixes','Add mix')}</section>
+  <section class="blk"><h2>Cartage trucks</h2>
+  ${tbl('minmax(160px,2fr) 110px 110px 44px',['Truck','Payload t','Hire $/h',''],R.trucks.map((x,i)=>`<div class="tr"><div data-label="Truck">${inText(`R.trucks.${i}.name`,x.name,'Truck')}</div><div data-label="Payload t">${inNum(`R.trucks.${i}.payload`,x.payload,{label:'Payload'})}</div><div data-label="Hire $/h">${inNum(`R.trucks.${i}.rate`,x.rate,{label:'Hire per hour'})}</div><div>${rm('R.trucks',i,x.name)}</div></div>`).join(''),'trucks','Add truck')}</section>
+  <section class="blk"><h2>Subcontract and one-off rates</h2><p class="note">A negative rate is a credit, such as millings taken back to your own plant as RAP.</p>
+  ${tbl('minmax(180px,3fr) 120px 110px 44px',['Item','Unit','Rate $',''],R.subs.map((x,i)=>`<div class="tr"><div data-label="Item">${inText(`R.subs.${i}.name`,x.name,'Item')}</div><div data-label="Unit">${inText(`R.subs.${i}.unit`,x.unit,'Unit')}</div><div data-label="Rate $">${inNum(`R.subs.${i}.rate`,x.rate,{label:'Rate'})}</div><div>${rm('R.subs',i,x.name)}</div></div>`).join(''),'subs','Add item')}</section>
+  <section class="blk"><h2>Overheads</h2><p class="note">Office, estimating, yard, insurance, IT and accreditations, recovered as a percentage of direct cost. Base it on realistic utilisation: weather costs paving days.</p><div class="grid">
+  ${field('Annual company overhead budget',inNum('R.overhead.budget',O.budget),'$')}${field('Forecast annual direct cost, all jobs',inNum('R.overhead.forecast',O.forecast),'$')}
+  ${field('Paving crews',inNum('R.overhead.crews',O.crews))}${field('Working weeks per year',inNum('R.overhead.weeks',O.weeks))}
+  ${field('Shifts per week',inNum('R.overhead.perWeek',O.perWeek))}${field('Weather and downtime loss',inNum('R.overhead.weather',O.weather,{pct:true}),'%')}</div>
+  <div class="grid" style="margin-top:12px">${rrow('Overhead recovery, % of direct cost','ohpct','key')}${rrow('Productive shifts per crew per year','shifts')}${rrow('Overhead to recover per crew-shift','ohshift')}</div></section>
+  <p class="foot"><button class="link" data-act="nav" data-v="backup">Back up or restore</button></p></main>`}
+
+function cardView(){
+  const R=S.rates,C=R.rateCard;
+  return `<main class="wrap narrow"><h1>Rate card</h1><p class="note" style="margin-top:10px">Standard $/t supplied and laid by job size, for small, repeat work. Use a full estimate for tenders and anything unusual, and check the two against each other.</p>
+  <section class="blk"><h2>Settings</h2><div class="grid">
+  ${field('Standard mix',sel('R.rateCard.mixId',R.mixes.map(m=>[m.id,m.name]),C.mixId))}${field('Standard compacted thickness',inNum('R.rateCard.thick',C.thick),'mm')}
+  ${field('Typical cartage',inNum('R.rateCard.cart',C.cart),'$/t')}${field('Max tonnes per shift, small crew',inNum('R.rateCard.maxT',C.maxT),'t')}
+  ${field('Hours per shift',inNum('R.rateCard.hours',C.hours),'h')}${field('Float movements per job',inNum('R.rateCard.floats',C.floats))}
+  ${field('Target margin for small work',inNum('R.rateCard.margin',C.margin,{pct:true}),'%')}${field('Job sizes to price',inText('R.rateCard.bands',C.bands),'t')}</div>
+  <div class="grid" style="margin-top:12px">${rrow('Asphalt price','rc:price')}${rrow('Density','rc:dens')}${rrow('Floats per job','rc:floats')}${rrow('Overhead recovery','rc:oh')}</div></section>
+  <section class="blk"><h2>Standard crew</h2><div class="tbl" style="--cols:minmax(170px,3fr) 80px minmax(90px,1fr) minmax(90px,1fr) 44px">${th(['Role','Qty','All-in $/h','$ per shift',''])}
+  ${C.crew.map((c,i)=>`<div class="tr"><div data-label="Role">${sel(`R.rateCard.crew.${i}.roleId`,R.roles.map(x=>[x.id,x.name]),c.roleId,'Role')}</div><div data-label="Qty">${inNum(`R.rateCard.crew.${i}.qty`,c.qty,{label:'Quantity'})}</div><div class="num cell-out" data-label="All-in $/h"><strong data-rout="rc:cr:${i}"></strong></div><div class="num cell-out" data-label="$ per shift"><strong data-rout="rc:cs:${i}"></strong></div><div>${rm('R.rateCard.crew',i,'crew')}</div></div>`).join('')}</div>
+  <button class="btn add" data-act="cadd" data-v="crew">Add crew</button>
+  <h2>Standard plant</h2><div class="tbl" style="--cols:minmax(170px,3fr) 80px minmax(90px,1fr) minmax(90px,1fr) 44px">${th(['Plant item','Qty','$/h','$ per shift',''])}
+  ${C.plant.map((p,i)=>`<div class="tr"><div data-label="Plant item">${sel(`R.rateCard.plant.${i}.plantId`,R.plant.map(x=>[x.id,x.name]),p.plantId,'Plant item')}</div><div data-label="Qty">${inNum(`R.rateCard.plant.${i}.qty`,p.qty,{label:'Quantity'})}</div><div class="num cell-out" data-label="$/h"><strong data-rout="rc:pr:${i}"></strong></div><div class="num cell-out" data-label="$ per shift"><strong data-rout="rc:ps:${i}"></strong></div><div>${rm('R.rateCard.plant',i,'plant')}</div></div>`).join('')}</div>
+  <button class="btn add" data-act="cadd" data-v="plant">Add plant</button>
+  <div class="grid" style="margin-top:12px">${rrow('Crew and plant cost per shift','rc:shift','key')}</div></section>
+  <section class="blk"><h2>Rates by job size</h2><div id="bands">${bandsHTML()}</div>
+  <p class="note" style="margin-top:12px">Rates fall as jobs grow because the shift and float costs spread over more tonnes, then step up where a job needs another shift.</p></section></main>`}
+function bandsHTML(){const c=cardCalc(S.rates),C=S.rates.rateCard;if(!c.rows.length)return '<p class="note">Enter job sizes above, separated by commas.</p>';
+  return `<div class="tbl" style="--cols:90px 70px minmax(100px,1fr) minmax(90px,1fr) minmax(90px,1fr) minmax(80px,1fr)">${th(['Job size','Shifts','Price ex GST','$ per tonne','Area at '+num(C.thick)+' mm','$ per m²']).replace(/class="th"/g,'class="th num"')}
+  ${c.rows.map(x=>`<div class="tr"><div class="cell-out" data-label="Job size"><strong>${num(x.t)} t</strong></div><div class="num" data-label="Shifts">${x.sh}</div><div class="num cell-out" data-label="Price ex GST"><strong>${money(x.pr)}</strong></div><div class="num cell-out" data-label="$ per tonne"><strong>${money(x.perT,2)}</strong></div><div class="num" data-label="Area">${num(x.area)} m²</div><div class="num" data-label="$ per m²">${money(x.perM2,2)}</div></div>`).join('')}</div>
+  <dl class="sumlist"><div class="final"><dt><strong>Minimum charge</strong> (a full shift, floats and up to ${num(c.rows[0].t)} t)</dt><dd>${money(c.min)}</dd></div></dl>`}
+
+function backupView(){
+  return `<main class="wrap narrow"><button class="back" data-act="nav" data-v="jobs">‹ Estimates</button><h1>Back up or restore</h1>
+  <p class="note" style="margin-top:10px">Estimates and rates are saved in this app on this device${syncState==='account'?' and in your Claude account':''}. The home-screen app keeps its own copy, so use a backup to move data between it and another device, and keep one somewhere safe, such as Notes or an email to yourself.</p>
+  <h2>Back up</h2><textarea id="bk" rows="6" readonly>${esc(JSON.stringify({app:'asphalt-estimator',v:1,rates:S.rates,jobs:S.jobs}))}</textarea>
+  <div class="row" style="margin-top:10px"><button class="btn primary" data-act="copy-backup">Copy backup</button><span class="status" id="bkmsg" role="status"></span></div>
+  <h2>Restore</h2><p class="note">Paste a backup below. Restoring replaces every rate and estimate in this app.</p><textarea id="rs" rows="6" placeholder="Paste a backup here"></textarea>
+  <div class="row" style="margin-top:10px"><button class="btn danger" data-act="restore">${armed==='restore'?'Tap again to replace everything':'Restore from backup'}</button><span class="status" id="rsmsg" role="status"></span></div>
+  <h2>Example estimate</h2><p class="note">Adds the car park example back to your estimates.</p><button class="btn" data-act="add-example">Add example estimate</button></main>`}
+
+/* ---------- render & refresh ---------- */
+function render(keep){
+  const y=window.scrollY;
+  const body=view==='job'?jobView():view==='rates'?ratesView():view==='card'?cardView():view==='backup'?backupView():jobsView();
+  app.innerHTML=topbar()+body;
+  if(keep)window.scrollTo(0,y);
+  refresh();
+}
+function refresh(){
+  if(view==='job'){const j=curJob();if(!j)return;const r=compute(j,S.rates);
+    app.querySelectorAll('[data-out]').forEach(el=>{const p=el.dataset.out.split('|'),k=p[0],f=p[1];el.textContent=(k in r.o)?r.o[k]:(FMT[f]||String)(r[k])});
+    app.querySelectorAll('[data-if]').forEach(el=>{el.hidden=!r.flags[el.dataset.if]});
+    const pn=$('#panel');if(pn)pn.innerHTML=panelHTML(j,r);const b=$('#bar');if(b)b.innerHTML=barHTML(r);
+    const q=$('#qdoc');if(q)q.innerHTML=quoteDoc(j,r);const qt=$('#qtxt');if(qt)qt.value=quoteText(j,r);
+  } else if(view==='rates'||view==='card'){
+    const R=S.rates,c=view==='card'?cardCalc(R):null;
+    app.querySelectorAll('[data-rout]').forEach(el=>{el.textContent=rout(el.dataset.rout,R,c)});
+    const bd=$('#bands');if(bd)bd.innerHTML=bandsHTML();
+  }
+}
+function rout(k,R,c){const O=R.overhead,sh=n(O.weeks)*n(O.perWeek)*(1-n(O.weather));
+  if(k==='oc')return pct(oncostTotal(R),2);
+  if(k.indexOf('role:')===0)return money(roleRate(R,k.slice(5)),2);
+  if(k.indexOf('plant:')===0)return money(plantRate(byId(R.plant,k.slice(6)),R),2)+'/h';
+  if(k==='ohpct')return pct(ohPct(R));if(k==='shifts')return num(sh,0);
+  if(k==='ohshift')return money(n(O.crews)*sh>0?n(O.budget)/(n(O.crews)*sh):0);
+  if(c){if(k==='rc:price')return money(c.price,2)+'/t';if(k==='rc:dens')return num(c.dens,2)+' t/m³';if(k==='rc:floats')return money(c.floats);if(k==='rc:oh')return pct(c.oh);
+    if(k==='rc:shift')return money(c.perShift);const m=k.match(/^rc:(cr|cs|pr|ps):(\d+)$/);
+    if(m){const i=+m[2],x=(m[1][0]==='c'?c.crew:c.plant)[i];if(!x)return '';return m[1][1]==='r'?money(x.r,2):money(x.s)}}
+  return ''}
+
+/* ---------- data binding ---------- */
+function resolve(path){const parts=path.split('.');let o=parts[0]==='j'?curJob():S.rates;for(let i=1;i<parts.length;i++){if(o==null)return undefined;o=o[parts[i]]}return o}
+function touch(path){if(path.indexOf('j.')===0){const j=curJob();if(j){j.updatedAt=Date.now();queue('job:'+j.id)}}else{S.rates.updatedAt=Date.now();queue('rates')}persist()}
+function setPath(path,val){const parts=path.split('.');let o=parts[0]==='j'?curJob():S.rates;if(!o)return;
+  for(let i=1;i<parts.length-1;i++){if(o[parts[i]]==null)o[parts[i]]={};o=o[parts[i]]}o[parts[parts.length-1]]=val;touch(path)}
+function parse(el){const t=el.dataset.t;if(t==='b')return el.checked;
+  if(t==='n'||t==='p'){const s=el.value.replace(/[,$%\s]/g,'');if(s===''||s==='-'||s==='.')return null;const v=parseFloat(s);if(!isFinite(v))return null;return t==='p'?v/100:v}
+  return el.value}
+app.addEventListener('input',e=>{const el=e.target.closest('[data-bind]');if(!el||el.tagName==='SELECT'||el.type==='checkbox')return;
+  setPath(el.dataset.bind,parse(el));refresh()});
+app.addEventListener('change',e=>{const el=e.target.closest('[data-bind]');if(!el)return;
+  if(el.tagName==='SELECT'||el.type==='checkbox'||el.type==='date'){setPath(el.dataset.bind,parse(el));render(true)}
+  else if(el.dataset.bind==='R.rateCard.bands'||/^R\.(roles|plant|mixes|trucks|subs)\.\d+\.name$/.test(el.dataset.bind)){render(true)}});
+app.addEventListener('toggle',e=>{const d=e.target;if(d.classList&&d.classList.contains('pl-item')){if(d.open)openPlant.add(d.dataset.pid);else openPlant.delete(d.dataset.pid)}},true);
+
+const ROW={layers:()=>({id:uid(),desc:'',mixId:(S.rates.mixes[0]||{}).id||'',area:null,thick:40,allow:0.04,surface:false}),
+  crew:()=>({id:uid(),roleId:(S.rates.roles[0]||{}).id||'',qty:1,hrs:10}),plant:()=>({id:uid(),plantId:(S.rates.plant[0]||{}).id||'',qty:1,hrs:10}),
+  prep:()=>({id:uid(),desc:'',qty:1,unit:'',rate:null}),subs:()=>({id:uid(),subId:(S.rates.subs[0]||{}).id||'',qty:1}),risks:()=>({id:uid(),desc:'',mit:'',prob:null,impact:null})};
+const RROW={oncost:()=>({id:uid(),name:'',pct:0}),roles:()=>({id:uid(),name:'New role',base:null}),
+  plant:()=>({id:uid(),name:'New plant item',type:'Owned',capital:null,residual:0.25,life:10000,annual:1000,fin:0.09,fuelLph:null,maint:null,hire:null}),
+  mixes:()=>({id:uid(),name:'New mix',price:null,density:2.4}),trucks:()=>({id:uid(),name:'New truck',payload:null,rate:null}),subs:()=>({id:uid(),name:'New item',unit:'each',rate:null})};
+
+function disarmLater(){clearTimeout(disarmLater.t);disarmLater.t=setTimeout(()=>{if(armed){armed=null;render(true)}},4000)}
+async function copyText(text,msg,fallback){try{await navigator.clipboard.writeText(text);if(msg)msg.textContent='Copied.'}
+  catch(e){if(fallback){const d=fallback.closest('details');if(d)d.open=true;fallback.focus();fallback.select()}if(msg)msg.textContent='Copying is blocked here. The text is selected, so use Copy from the menu.'}}
+
+app.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act,v=b.dataset.v;
+  switch(a){
+  case 'nav':view=v;armed=null;render();window.scrollTo(0,0);break;
+  case 'tab':tab=v;render();window.scrollTo(0,0);break;
+  case 'setup-done':S.rates.setupDone=true;touch('R.setupDone');render(true);break;
+  case 'new-job':{const j=newJob(false);S.jobs.push(j);jobId=j.id;view='job';tab='job';queue('job:'+j.id);persist();render();window.scrollTo(0,0);break}
+  case 'add-example':{const j=newJob(true);S.jobs.push(j);queue('job:'+j.id);persist();jobId=j.id;view='job';tab='job';render();window.scrollTo(0,0);break}
+  case 'open-job':jobId=b.dataset.id;view='job';tab='job';render();window.scrollTo(0,0);break;
+  case 'dup-job':{const src=curJob();if(!src)break;const c=JSON.parse(JSON.stringify(src));c.id=uid();c.name=(src.name||'Estimate')+' (copy)';c.status='Draft';
+    c.createdAt=c.updatedAt=Date.now();c.actual={tonnes:null,shifts:null,cost:null};S.jobs.push(c);jobId=c.id;tab='job';queue('job:'+c.id);persist();render();window.scrollTo(0,0);break}
+  case 'del-job':{if(armed!=='del-job'){armed='del-job';render(true);disarmLater();break}armed=null;const id=jobId;S.jobs=S.jobs.filter(x=>x.id!==id);
+    if(S.deleted.indexOf(id)<0)S.deleted.push(id);queue('del:'+id);persist();view='jobs';render();window.scrollTo(0,0);break}
+  case 'add':{const j=curJob();if(!j)break;j[v].push(ROW[v]());touch('j.'+v);render(true);break}
+  case 'radd':S.rates[v].push(RROW[v]());if(v==='plant'){openPlant.add(S.rates.plant[S.rates.plant.length-1].id)}touch('R.'+v);render(true);break;
+  case 'cadd':S.rates.rateCard[v].push(v==='crew'?{id:uid(),roleId:(S.rates.roles[0]||{}).id||'',qty:1}:{id:uid(),plantId:(S.rates.plant[0]||{}).id||'',qty:1});touch('R.rateCard');render(true);break;
+  case 'rm':{const arr=resolve(b.dataset.p);if(Array.isArray(arr)){arr.splice(+b.dataset.i,1);touch(b.dataset.p);render(true)}break}
+  case 'reset':{const j=curJob();if(j){j[v]=null;touch('j.'+v);render(true)}break}
+  case 'copy-quote':{const j=curJob();if(!j)break;const r=compute(j,S.rates);copyText(quoteText(j,r),$('#qmsg'),$('#qtxt'));break}
+  case 'copy-backup':copyText($('#bk').value,$('#bkmsg'),$('#bk'));break;
+  case 'restore':{const msg=$('#rsmsg');let d;try{d=JSON.parse($('#rs').value)}catch(err){msg.textContent='That isn\'t a valid backup. Paste the whole backup text, from the first { to the last }.';break}
+    if(!d||d.app!=='asphalt-estimator'||!d.rates||!Array.isArray(d.jobs)){msg.textContent='That text isn\'t a backup from this app.';break}
+    if(armed!=='restore'){armed='restore';const t=$('#rs').value;render(true);$('#rs').value=t;disarmLater();break}
+    armed=null;const now=Date.now();S.jobs.forEach(j=>{if(!d.jobs.some(x=>x.id===j.id)){S.deleted.push(j.id);queue('del:'+j.id)}});
+    S.rates=d.rates;S.rates.updatedAt=now;S.jobs=d.jobs;S.jobs.forEach(j=>{j.updatedAt=now;queue('job:'+j.id)});queue('rates');persist();
+    render(true);$('#rsmsg').textContent='Restored '+S.jobs.length+' estimate'+(S.jobs.length===1?'':'s')+' and your rates.';break}
+  }
+});
+
+persist();render();initSync();
+})();
+</script>
+</body>
+</html>
